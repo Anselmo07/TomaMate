@@ -1,4 +1,7 @@
-export interface MateEntry {
-    date: string;
-    mates: number;
+import type { GameItem } from "./item";
+
+export interface Mate extends GameItem {
+
+    material?: string;
+
 }

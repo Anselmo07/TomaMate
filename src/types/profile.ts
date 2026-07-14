@@ -1,7 +1,15 @@
 export interface Profile {
-    id: string;
-    username: string;
-    name: string;
-    bio: string;
-    avatar: string;
+  id: string;
+
+  username: string;
+
+  displayName: string;
+
+  avatar: string;
+
+  bio: string;
+
+  location: string;
+
+  joinedAt: string;
 }
