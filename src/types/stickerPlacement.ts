@@ -1,13 +1,15 @@
 export interface StickerPlacement {
 
-  stickerId: string;
+    id: string;
 
-  x: number;
+    stickerId: string;
 
-  y: number;
+    x: number;
 
-  rotation: number;
+    y: number;
 
-  scale: number;
+    rotation: number;
+
+    scale: number;
 
 }

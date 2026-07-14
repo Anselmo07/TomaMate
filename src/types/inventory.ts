@@ -1,17 +1,17 @@
-import { StickerPlacement } from "./stickerPlacement";
+import type { StickerPlacement } from "./stickerPlacement";
 
 export interface Inventory {
 
-  unlockedMates: string[];
+    unlockedThermos: string[];
 
-  unlockedThermos: string[];
+    unlockedMates: string[];
 
-  unlockedStickers: string[];
+    unlockedStickers: string[];
 
-  equippedMate: string;
+    equippedThermo: string;
 
-  equippedThermo: string;
+    equippedMate: string;
 
-  placedStickers: StickerPlacement[];
+    thermoStickers: StickerPlacement[];
 
 }
