@@ -1,0 +1,31 @@
+.stat{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    text-align:center;
+
+    gap:.5rem;
+
+}
+
+.stat__icon{
+
+    font-size:2rem;
+
+}
+
+.stat h3{
+
+    font-size:1.8rem;
+
+}
+
+.stat span{
+
+    color:var(--color-text-light);
+
+}

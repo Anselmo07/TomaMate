@@ -1,31 +1,35 @@
 import MainLayout from "../../components/layout/MainLayout/MainLayout";
-import Card from "../../components/ui/Card/Card";
+
+import Hero from "./components/Hero";
+import About from "./components/About";
+// import HowItWorks from "../components/HowItWorks";
+// import HowToPrepareMate from "./components/HowToPrepareMate";
+// import HeatmapPreview from "./components/HeatmapPreview";
+// import Collectibles from "./components/Collectibles";
+// import CTA from "./components/CTA";
+// import Footer from "./components/Footer";
 
 import "./Home.css";
 
 export default function Home() {
   return (
     <MainLayout>
-      <div className="home-grid">
-        <Card>
-          <h2>👋 Bienvenido a MateHub</h2>
-          <p>Acá irá la información del usuario.</p>
-        </Card>
+      <div className="home">
+        <Hero />
 
-        <Card>
-          <h2>🧉 ¿Tomaste mate hoy?</h2>
-          <p>Acá irá el formulario para registrar el día.</p>
-        </Card>
+         <About />
 
-        <Card>
-          <h2>📅 Contribuciones</h2>
-          <p>Acá irá el Heatmap.</p>
-        </Card>
+        {/* <HowItWorks />
 
-        <Card>
-          <h2>📊 Estadísticas</h2>
-          <p>Acá irán las estadísticas rápidas.</p>
-        </Card>
+        <HowToPrepareMate />
+
+        <HeatmapPreview />
+
+        <Collectibles />
+
+        <CTA />
+
+        <Footer /> */}
       </div>
     </MainLayout>
   );

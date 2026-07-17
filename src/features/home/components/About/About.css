@@ -1,0 +1,91 @@
+.about{
+
+    min-height:90vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    max-width:900px;
+
+    margin:auto;
+
+    padding:40px 20px;
+
+}
+
+.about__eyebrow{
+
+    color:var(--color-primary);
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    margin-bottom:20px;
+
+}
+
+.about h2{
+
+    font-size:4rem;
+
+    line-height:1.15;
+
+    margin-bottom:40px;
+
+}
+
+.about__description{
+
+    font-size:1.4rem;
+
+    line-height:2;
+
+    color:var(--color-text-light);
+
+    max-width:700px;
+
+    margin-bottom:50px;
+
+}
+
+.about__highlight{
+
+    font-size:1.6rem;
+
+    font-weight:600;
+
+    color:var(--color-primary);
+
+    max-width:650px;
+
+}
+
+@media(max-width:768px){
+
+.about h2{
+
+font-size:2.6rem;
+
+}
+
+.about__description{
+
+font-size:1.1rem;
+
+}
+
+.about__highlight{
+
+font-size:1.2rem;
+
+}
+
+}
