@@ -1,4 +1,5 @@
 import MainLayout from "../../components/layout/MainLayout/MainLayout";
+import Container from "../../components/layout/Container/Container";
 
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,28 +10,34 @@ import HowItWorks from "./components/HowItWorks";
 // import CTA from "./components/CTA";
 // import Footer from "./components/Footer";
 
-import "./Home.css";
-
 export default function Home() {
   return (
     <MainLayout>
-      <div className="home">
+      <Container>
         <Hero />
+      </Container>
 
-         <About />
+      <Container>
+        <About />
+      </Container>
 
-         <HowItWorks />
+      <HowItWorks />
 
-        {/* <HowToPrepareMate />
+      {/* <Container>
+        <HowToPrepareMate />
+      </Container>
 
-        <HeatmapPreview />
+      <HeatmapPreview />
 
+      <Container>
         <Collectibles />
+      </Container>
 
+      <Container>
         <CTA />
+      </Container>
 
-        <Footer /> */}
-      </div>
+      <Footer /> */}
     </MainLayout>
   );
 }

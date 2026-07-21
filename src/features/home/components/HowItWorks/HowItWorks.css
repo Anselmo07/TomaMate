@@ -10,7 +10,35 @@
 
     align-items:center;
 
-    padding:40px 20px;
+    text-align:center;
+
+    position: relative;
+
+    background-image: url("../../../../assets/images/cesped.jpg");
+    background-size: cover;
+    background-position: center;
+
+}
+
+.how::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:0;
+
+}
+
+.how > *{
+
+    position:relative;
+
+    z-index:1;
 
 }
 
@@ -28,17 +56,13 @@
 
 .how h2{
 
-    text-align:center;
+    font-size:4rem;
 
-    font-size:3.8rem;
-
-    margin-bottom:80px;
-
-    line-height:1.2;
+    margin-bottom:90px;
 
 }
 
-.how__cards{
+.how__timeline{
 
     width:100%;
 
@@ -46,43 +70,41 @@
 
     grid-template-columns:repeat(3,1fr);
 
-    gap:30px;
+    gap:60px;
 
 }
 
-.how-card{
+.how-step{
 
-    background:white;
-
-    border-radius:24px;
-
-    padding:40px;
-
-    border:1px solid var(--color-border);
-
-    transition:.3s;
-
-    text-align:center;
+    position:relative;
 
 }
 
-.how-card:hover{
+.how-step__icon{
 
-    transform:translateY(-10px);
+    width:110px;
 
-    box-shadow:var(--shadow-lg);
+    height:110px;
+
+    margin:auto;
+
+    margin-bottom:25px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:3rem;
+
+    background:#F5F5F5;
 
 }
 
-.how-card__icon{
-
-    font-size:4rem;
-
-    margin-bottom:20px;
-
-}
-
-.how-card h3{
+.how-step h3{
 
     margin-bottom:18px;
 
@@ -90,7 +112,7 @@
 
 }
 
-.how-card p{
+.how-step p{
 
     color:var(--color-text-light);
 
@@ -100,15 +122,15 @@
 
 @media(max-width:900px){
 
-.how h2{
+.how__timeline{
 
-font-size:2.7rem;
+grid-template-columns:1fr;
 
 }
 
-.how__cards{
+.how h2{
 
-grid-template-columns:1fr;
+font-size:2.8rem;
 
 }
 

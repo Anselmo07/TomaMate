@@ -1,9 +1,18 @@
 import "./About.css";
+import { motion } from "framer-motion";
 
 export default function About() {
   return (
-    <section className="about">
-
+    <motion.section
+      className="about"
+      initial={{ opacity: 0, x: -80 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{
+        duration: 0.8,
+        ease: "easeOut",
+      }}
+    >
       <span className="about__eyebrow">
         MÁS QUE UNA BEBIDA
       </span>
@@ -27,7 +36,6 @@ export default function About() {
         en una historia que podés recordar
         todos los días.
       </p>
-
-    </section>
+    </motion.section>
   );
 }

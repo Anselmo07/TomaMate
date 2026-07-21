@@ -1,5 +1,28 @@
 import "./HowItWorks.css";
 
+import { motion } from "framer-motion";
+
+const steps = [
+  {
+    icon: "🧉",
+    title: "¿Tomaste mate?",
+    description:
+      "Respondé con un simple sí o no.",
+  },
+  {
+    icon: "🫖",
+    title: "¿Cuántos termos?",
+    description:
+      "Elegí la cantidad de termos del día.",
+  },
+  {
+    icon: "🔥",
+    title: "Construí tu racha",
+    description:
+      "Cada día suma experiencia y recompensas.",
+  },
+];
+
 export default function HowItWorks() {
   return (
     <section className="how">
@@ -9,57 +32,47 @@ export default function HowItWorks() {
       </span>
 
       <h2>
-        Construí tu historia
+        Tres pasos.
         <br />
-        matera.
+        Un nuevo ritual.
       </h2>
 
-      <div className="how__cards">
+      <div className="how__timeline">
 
-        <article className="how-card">
+        {steps.map((step, index) => (
 
-          <div className="how-card__icon">
-            🧉
-          </div>
+          <motion.article
+            key={step.title}
+            className="how-step"
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              delay: index * .2,
+              duration: .6,
+            }}
+          >
+            <div className="how-step__icon">
+              {step.icon}
+            </div>
 
-          <h3>¿Tomaste mate?</h3>
+            <h3>{step.title}</h3>
 
-          <p>
-            Registrá si tomaste mate durante el día.
-          </p>
+            <p>{step.description}</p>
 
-        </article>
+          </motion.article>
 
-        <article className="how-card">
-
-          <div className="how-card__icon">
-            🫖
-          </div>
-
-          <h3>¿Cuántos termos?</h3>
-
-          <p>
-            Elegí cuántos termos compartiste.
-          </p>
-
-        </article>
-
-        <article className="how-card">
-
-          <div className="how-card__icon">
-            🔥
-          </div>
-
-          <h3>Mantené la racha</h3>
-
-          <p>
-            Cada día suma experiencia y nuevas recompensas.
-          </p>
-
-        </article>
+        ))}
 
       </div>
-
     </section>
   );
 }
