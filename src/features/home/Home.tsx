@@ -2,7 +2,7 @@ import MainLayout from "../../components/layout/MainLayout/MainLayout";
 
 import Hero from "./components/Hero";
 import About from "./components/About";
-// import HowItWorks from "../components/HowItWorks";
+import HowItWorks from "./components/HowItWorks";
 // import HowToPrepareMate from "./components/HowToPrepareMate";
 // import HeatmapPreview from "./components/HeatmapPreview";
 // import Collectibles from "./components/Collectibles";
@@ -19,9 +19,9 @@ export default function Home() {
 
          <About />
 
-        {/* <HowItWorks />
+         <HowItWorks />
 
-        <HowToPrepareMate />
+        {/* <HowToPrepareMate />
 
         <HeatmapPreview />
 
