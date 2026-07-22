@@ -62,6 +62,10 @@
 
 }
 
+.how_h2{
+    color: black;
+}
+
 .how__timeline{
 
     width:100%;
@@ -100,7 +104,7 @@
 
     font-size:3rem;
 
-    background:#F5F5F5;
+    background:transparent;
 
 }
 
@@ -114,7 +118,7 @@
 
 .how-step p{
 
-    color:var(--color-text-light);
+    color: var(--color-secondary);
 
     line-height:1.8;
 

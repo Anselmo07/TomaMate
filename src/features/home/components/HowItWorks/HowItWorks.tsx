@@ -31,7 +31,7 @@ export default function HowItWorks() {
         CÓMO FUNCIONA
       </span>
 
-      <h2>
+      <h2 className="how_h2">
         Tres pasos.
         <br />
         Un nuevo ritual.
