@@ -5,9 +5,9 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import HowItWorks from "./components/HowItWorks";
 import HowToPrepareMate from "./components/HowToPrepareMate";
-// import HeatmapPreview from "./components/HeatmapPreview";
-// import Collectibles from "./components/Collectibles";
-// import CTA from "./components/CTA";
+import HeatmapPreview from "./components/HeatmapPreview";
+import Collectibles from "./components/Collectibles";
+import CTA from "./components/CTA";
 // import Footer from "./components/Footer";
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
         <HowToPrepareMate />
       </Container>
 
-      {/* <HeatmapPreview />
+       <HeatmapPreview />
 
       <Container>
         <Collectibles />
@@ -37,7 +37,7 @@ export default function Home() {
         <CTA />
       </Container>
 
-      <Footer /> */}
+      {/*<Footer /> */}
     </MainLayout>
   );
 }
