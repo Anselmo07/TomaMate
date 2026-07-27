@@ -1,14 +1,26 @@
 .header{
 
-    background:white;
+    position:sticky;
 
-    border-bottom:1px solid var(--color-border);
+    top:0;
+
+    z-index:100;
+
+    backdrop-filter:blur(16px);
+
+    background:rgba(248,246,239,.75);
+
+    border-bottom:1px solid rgba(0,0,0,.05);
 
 }
 
-.header__content{
+.header__container{
 
-    height:72px;
+    max-width:var(--container-width);
+
+    margin:auto;
+
+    height:80px;
 
     display:flex;
 
@@ -16,9 +28,11 @@
 
     justify-content:space-between;
 
+    padding:0 24px;
+
 }
 
-.header__profile{
+.logo{
 
     display:flex;
 
@@ -26,14 +40,104 @@
 
     gap:12px;
 
+    font-weight:800;
+
+    font-size:1.3rem;
+
 }
 
-.header__profile img{
+.logo span{
 
-    width:42px;
+    letter-spacing:1px;
 
-    height:42px;
+}
 
-    border-radius:50%;
+nav{
+
+    display:flex;
+
+    gap:36px;
+
+}
+
+nav a{
+
+    color:var(--color-text-light);
+
+    transition:.25s;
+
+    position:relative;
+
+}
+
+nav a:hover{
+
+    color:var(--color-primary);
+
+}
+
+nav a::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-6px;
+
+    left:0;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--color-primary);
+
+    transition:.25s;
+
+}
+
+nav a:hover::after{
+
+    width:100%;
+
+}
+
+.header__button{
+
+    background:var(--color-primary);
+
+    color:white;
+
+    padding:14px 24px;
+
+    border-radius:999px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.header__button:hover{
+
+    background:var(--color-primary-dark);
+
+    transform:translateY(-2px);
+
+}
+
+@media(max-width:900px){
+
+nav{
+
+display:none;
+
+}
+
+.logo span{
+
+display:none;
+
+}
 
 }

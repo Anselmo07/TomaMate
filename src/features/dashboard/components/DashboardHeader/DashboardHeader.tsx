@@ -1,9 +1,9 @@
-import "./WelcomeCard.css";
+import "./DashboardHeader.css";
 
 import Card from "../../../../components/ui/Card/Card";
 import { useUser } from "../../../../context/useUser";
 
-export default function WelcomeCard() {
+export default function DashboardHeader() {
   const { user } = useUser();
 
   return (

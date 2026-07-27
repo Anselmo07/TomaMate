@@ -8,7 +8,6 @@ import HowToPrepareMate from "./components/HowToPrepareMate";
 import HeatmapPreview from "./components/HeatmapPreview";
 import Collectibles from "./components/Collectibles";
 import CTA from "./components/CTA";
-// import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -37,7 +36,6 @@ export default function Home() {
         <CTA />
       </Container>
 
-      {/*<Footer /> */}
     </MainLayout>
   );
 }

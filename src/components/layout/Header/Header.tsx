@@ -1,36 +1,51 @@
 import "./Header.css";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-import Container from "../Container/Container";
+export default function Header() {
+  return (
+    <motion.header
+      className="header"
+      initial={{ y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ duration: .6 }}
+    >
+      <div className="header__container">
 
-export default function Header(){
+        <Link
+          to="/"
+          className="logo"
+        >
+          🧉
 
-    return(
+          <span>TOMA MATE</span>
 
-        <header className="header">
+        </Link>
 
-            <Container>
+        <nav>
 
-                <div className="header__content">
+          <Link to="/">
+            Inicio
+          </Link>
 
-                    <h1>🧉 MateHub</h1>
+          <a href="#about">
+            Nosotros
+          </a>
 
-                    <div className="header__profile">
+          <a href="#how">
+            Cómo funciona
+          </a>
 
-                        <span>Nivel 1</span>
+        </nav>
 
-                        <img
-                            src="https://placehold.co/40"
-                            alt="Avatar"
-                        />
+        <button className="header__button">
 
-                    </div>
+          Comenzar
 
-                </div>
+        </button>
 
-            </Container>
+      </div>
 
-        </header>
-
-    )
-
+    </motion.header>
+  );
 }
