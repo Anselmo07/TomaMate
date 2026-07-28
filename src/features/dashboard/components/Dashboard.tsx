@@ -2,6 +2,8 @@ import Container from "../../../components/layout/Container/Container";
 import MainLayout from "../../../components/layout/MainLayout/MainLayout";
 import DailyQuestion from "./DailyQuestion";
 import DashboardHeader from "./DashboardHeader";
+import HeatmapCard from "./HeatmapCard";
+import QuickStats from "./QuickStats";
 
 
 export default function Dashboard() {
@@ -11,13 +13,13 @@ export default function Dashboard() {
             <Container>
                 <DashboardHeader />
 
-                {/* <QuickStats />
-
                 <DailyQuestion />
+
+                <QuickStats />
 
                 <HeatmapCard />
 
-                <ThermosCard />
+               {/*  <ThermosCard />
 
                 <RecentUnlocks /> */}
 

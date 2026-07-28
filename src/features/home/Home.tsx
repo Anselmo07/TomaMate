@@ -26,7 +26,7 @@ export default function Home() {
         <HowToPrepareMate />
       </Container>
 
-       <HeatmapPreview />
+      <HeatmapPreview />
 
       <Container>
         <Collectibles />
