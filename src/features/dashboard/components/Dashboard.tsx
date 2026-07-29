@@ -4,6 +4,7 @@ import DailyQuestion from "./DailyQuestion";
 import DashboardHeader from "./DashboardHeader";
 import HeatmapCard from "./HeatmapCard";
 import QuickStats from "./QuickStats";
+import ThermosCard from "./ThermosCard/ThermosCard";
 
 
 export default function Dashboard() {
@@ -19,9 +20,9 @@ export default function Dashboard() {
 
                 <HeatmapCard />
 
-               {/*  <ThermosCard />
+                <ThermosCard />
 
-                <RecentUnlocks /> */}
+               {/*  <RecentUnlocks /> */}
 
             </Container>
 
