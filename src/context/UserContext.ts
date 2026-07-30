@@ -4,8 +4,6 @@ import type { User } from "../types/user";
 export interface UserContextType {
   user: User;
 
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-
   recordToday(data: {
     drankMate: boolean;
     thermos: number;

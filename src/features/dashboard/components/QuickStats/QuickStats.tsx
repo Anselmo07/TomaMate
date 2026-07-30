@@ -1,36 +1,45 @@
 import "./QuickStats.css";
 import { motion } from "framer-motion";
+
 import { useUser } from "../../../../context/useUser";
+import { calculateStats } from "../../../../game/calculations/stats";
 
 export default function QuickStats() {
 
   const { user } = useUser();
 
-  const stats = [
+  const stats = calculateStats(user.history);
+
+  const cards = [
     {
       icon: "🔥",
-      value: user.streak,
+      value: stats.currentStreak,
       label: "Racha",
     },
     {
       icon: "🧉",
-      value: user.totalMates,
-      label: "Mates",
+      value: stats.totalMates,
+      label: "Termos",
     },
     {
       icon: "⭐",
-      value: user.level,
+      value: user.progress.level,
       label: "Nivel",
+    },
+    {
+      icon: "📈",
+      value: stats.averagePerDay,
+      label: "Promedio",
     },
   ];
 
   return (
     <section className="quick-stats">
 
-      {stats.map((stat, index) => (
+      {cards.map((card, index) => (
 
         <motion.article
-          key={stat.label}
+          key={card.label}
           className="stat-card"
           initial={{
             opacity: 0,
@@ -51,12 +60,12 @@ export default function QuickStats() {
         >
 
           <span className="stat-icon">
-            {stat.icon}
+            {card.icon}
           </span>
 
-          <h3>{stat.value}</h3>
+          <h3>{card.value}</h3>
 
-          <p>{stat.label}</p>
+          <p>{card.label}</p>
 
         </motion.article>
 

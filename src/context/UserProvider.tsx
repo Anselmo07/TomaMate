@@ -27,17 +27,16 @@ export function UserProvider({ children }: Props) {
     drankMate: boolean;
     thermos: number;
   }) {
-    setUser((previous) => registerToday(previous, data));
+    setUser((currentUser) => registerToday(currentUser, data));
   }
 
   return (
     <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        recordToday,
-      }}
-    >
+        value={{
+          user,
+          recordToday,
+        }}
+      >
       {children}
     </UserContext.Provider>
   );
