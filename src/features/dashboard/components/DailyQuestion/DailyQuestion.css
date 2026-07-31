@@ -1,3 +1,15 @@
+.daily-question__completed{
+
+    margin:20px 0;
+
+    text-align:center;
+
+    color:var(--color-success);
+
+    font-weight:600;
+
+}
+
 .daily-question__actions{
     display:flex;
     gap:16px;

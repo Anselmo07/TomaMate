@@ -2,12 +2,19 @@ import "./HeatmapCard.css";
 
 import { motion } from "framer-motion";
 
-const days = Array.from({ length: 35 }, (_, index) => ({
-  active: Math.random() > 0.35,
-  id: index,
-}));
+import { useUser } from "../../../../context/useUser";
+
+import { calculateHeatmap } from "../../../../game/calculations/heatmap";
+import { calculateStats } from "../../../../game/calculations/stats";
 
 export default function HeatmapCard() {
+
+  const { user } = useUser();
+
+  const heatmap = calculateHeatmap(user.history);
+
+  const stats = calculateStats(user.history);
+
   return (
     <motion.section
       className="heatmap-card"
@@ -26,6 +33,7 @@ export default function HeatmapCard() {
         once: true,
       }}
     >
+
       <div className="heatmap-card__header">
 
         <div>
@@ -36,22 +44,26 @@ export default function HeatmapCard() {
 
         </div>
 
-        <p>Julio 2026</p>
+        <p>
+          {new Date().toLocaleString("es-AR", {
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
 
       </div>
 
       <div className="heatmap-grid">
 
-        {days.map((day) => (
+        {heatmap.map((day) => (
 
           <motion.div
-            key={day.id}
-            className={`heatmap-cell ${
-              day.active ? "active" : ""
-            }`}
+            key={day.date}
+            className="heatmap-cell level-2"
             whileHover={{
               scale: 1.25,
             }}
+            title={`${day.date} • ${day.value}`}
           />
 
         ))}
@@ -62,7 +74,7 @@ export default function HeatmapCard() {
 
         <div>
 
-          <strong>🔥 15</strong>
+          <strong>🔥 {stats.bestStreak}</strong>
 
           <span>Mejor racha</span>
 
@@ -70,15 +82,15 @@ export default function HeatmapCard() {
 
         <div>
 
-          <strong>🧉 82</strong>
+          <strong>🧉 {stats.totalMates}</strong>
 
-          <span>Mates este mes</span>
+          <span>Termos registrados</span>
 
         </div>
 
         <div>
 
-          <strong>📅 23</strong>
+          <strong>📅 {user.history.length}</strong>
 
           <span>Días registrados</span>
 

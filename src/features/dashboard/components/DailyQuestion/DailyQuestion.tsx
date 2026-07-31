@@ -6,16 +6,29 @@ import Modal from "../../../../components/ui/Modal/Modal";
 
 import { useUser } from "../../../../context/useUser";
 
+import { getTodayEntry } from "../../../../game/engines/history";
+
 import "./DailyQuestion.css";
 
 export default function DailyQuestion() {
-  const { recordToday } = useUser();
+  const { user, recordToday } = useUser();
 
   const [open, setOpen] = useState(false);
 
   const [thermos, setThermos] = useState(1);
 
+  const today = new Date()
+    .toISOString()
+    .split("T")[0];
+
+  const alreadyAnswered = !!getTodayEntry(
+    user.history,
+    today
+  );
+
   function handleNo() {
+    if (alreadyAnswered) return;
+
     recordToday({
       drankMate: false,
       thermos: 0,
@@ -23,6 +36,8 @@ export default function DailyQuestion() {
   }
 
   function handleYes() {
+    if (alreadyAnswered) return;
+
     setOpen(true);
   }
 
@@ -32,26 +47,44 @@ export default function DailyQuestion() {
       thermos,
     });
 
+    setThermos(1);
+
     setOpen(false);
   }
 
   return (
     <>
       <Card>
-        <h2>🧉 ¿Tomaste mate hoy?</h2>
 
-        <div className="daily-question__actions">
-          <Button onClick={handleYes}>
-            Sí
-          </Button>
+        <h2>
+          {alreadyAnswered
+            ? "🔥 ¡Nos vemos mañana!"
+            : "🧉 ¿Tomaste mate hoy?"}
+        </h2>
 
-          <Button
-            variant="secondary"
-            onClick={handleNo}
-          >
-            No
-          </Button>
-        </div>
+        {alreadyAnswered && (
+          <p className="daily-question__completed">
+            ✅ Ya registraste tu día de hoy.
+          </p>
+        )}
+
+        {!alreadyAnswered && (
+          <div className="daily-question__actions">
+
+            <Button onClick={handleYes}>
+              Sí
+            </Button>
+
+            <Button
+              variant="secondary"
+              onClick={handleNo}
+            >
+              No
+            </Button>
+
+          </div>
+        )}
+
       </Card>
 
       <Modal
@@ -59,7 +92,9 @@ export default function DailyQuestion() {
         title="¿Cuántos termos tomaste?"
         onClose={() => setOpen(false)}
       >
+
         <div className="daily-question__counter">
+
           <Button
             variant="secondary"
             onClick={() =>
@@ -79,6 +114,7 @@ export default function DailyQuestion() {
           >
             +
           </Button>
+
         </div>
 
         <Button
@@ -87,6 +123,7 @@ export default function DailyQuestion() {
         >
           Registrar
         </Button>
+
       </Modal>
     </>
   );

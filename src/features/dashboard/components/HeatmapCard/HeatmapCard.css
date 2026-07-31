@@ -68,11 +68,51 @@
 
 }
 
-.heatmap-cell.active{
+/* ===========================
+   Niveles del Heatmap
+=========================== */
 
-    background:var(--color-primary);
+.level-0{
+
+    background:#ececec;
 
 }
+
+.level-1{
+
+    background:#d9f2dc;
+
+}
+
+.level-2{
+
+    background:#9ad89f;
+
+}
+
+.level-3{
+
+    background:#5fbf66;
+
+}
+
+.level-4{
+
+    background:#2e7d32;
+
+}
+
+/* Hover */
+
+.heatmap-cell:hover{
+
+    transform:scale(1.15);
+
+}
+
+/* ===========================
+   Footer
+=========================== */
 
 .heatmap-info{
 
@@ -104,16 +144,16 @@
 
 @media(max-width:700px){
 
-.heatmap-card{
+    .heatmap-card{
 
-padding:25px;
+        padding:25px;
 
-}
+    }
 
-.heatmap-info{
+    .heatmap-info{
 
-grid-template-columns:1fr;
+        grid-template-columns:1fr;
 
-}
+    }
 
 }
