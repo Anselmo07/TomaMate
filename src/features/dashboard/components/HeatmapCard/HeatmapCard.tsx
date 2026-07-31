@@ -59,7 +59,7 @@ export default function HeatmapCard() {
 
           <motion.div
             key={day.date}
-            className="heatmap-cell level-2"
+            className={`heatmap-cell level-${day.value}`}
             whileHover={{
               scale: 1.25,
             }}
