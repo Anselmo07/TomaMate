@@ -65,7 +65,7 @@ export default function HeatmapPreview() {
           viewport={{ once: true }}
         >
 
-          <div className="heatmap-grid">
+          <div className="heatmap-preview__grid">
 
             {Array.from({ length: 140 }).map((_, index) => (
 
