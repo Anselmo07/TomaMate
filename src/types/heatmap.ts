@@ -2,24 +2,24 @@ export interface HeatmapDay {
 
   date: string;
 
+  thermos: number;
+
   value: number;
+
+  active: boolean;
 
 }
 
-export interface HeatmapMonth {
+export interface HeatmapWeek {
 
-  label: string;
+  month?: string;
 
-  column: number;
+  days: HeatmapDay[];
 
 }
 
 export interface HeatmapData {
 
-  days: HeatmapDay[];
-
-  months: HeatmapMonth[];
-
-  weeks: number;
+  weeks: HeatmapWeek[];
 
 }

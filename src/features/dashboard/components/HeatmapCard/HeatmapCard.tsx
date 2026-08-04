@@ -7,15 +7,7 @@ import { useUser } from "../../../../context/useUser";
 import { calculateHeatmap } from "../../../../game/calculations/heatmap";
 import { calculateStats } from "../../../../game/calculations/stats";
 
-const weekDays = [
-  "Dom",
-  "Lun",
-  "Mar",
-  "Mié",
-  "Jue",
-  "Vie",
-  "Sáb",
-];
+import HeatmapGrid from "./HeatmapGrid";
 
 export default function HeatmapCard() {
 
@@ -59,94 +51,7 @@ export default function HeatmapCard() {
 
       </div>
 
-      {/* ===========================
-            Meses
-      =========================== */}
-
-      <div className="heatmap-months">
-
-        <div className="heatmap-months__space" />
-
-        {weeks.map((week, index) => {
-
-          const previous = weeks[index - 1];
-
-          const showMonth =
-            index === 0 ||
-            previous.month !== week.month;
-
-          return (
-
-            <div
-              key={index}
-              className="heatmap-month"
-            >
-
-              {showMonth && (
-                <span>
-                  {week.month}
-                </span>
-              )}
-
-            </div>
-
-          );
-
-        })}
-
-      </div>
-
-      {/* ===========================
-            Heatmap
-      =========================== */}
-
-      <div className="heatmap-wrapper">
-
-        <div className="heatmap-days">
-
-          {weekDays.map((day) => (
-
-            <span key={day}>
-              {day}
-            </span>
-
-          ))}
-
-        </div>
-
-        <div className="heatmap-weeks">
-
-          {weeks.map((week, weekIndex) => (
-
-            <div
-              key={weekIndex}
-              className="heatmap-week"
-            >
-
-              {week.days.map((day) => (
-
-                <motion.div
-                  key={day.date}
-                  className={`heatmap-cell level-${day.value}`}
-                  whileHover={{
-                    scale: 1.35,
-                  }}
-                  title={`${day.date} • ${day.thermos} termo(s)`}
-                />
-
-              ))}
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-      {/* ===========================
-            Footer
-      =========================== */}
+      <HeatmapGrid weeks={weeks} />
 
       <div className="heatmap-info">
 

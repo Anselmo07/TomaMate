@@ -1,20 +1,12 @@
 import type { DailyEntry } from "../../types/history";
+import type {
+  HeatmapData,
+  HeatmapWeek,
+  HeatmapDay,
+} from "../../types/heatmap";
 
-export interface HeatmapDay {
-  date: string;
-  value: number;
-  thermos: number;
-}
-
-export interface HeatmapWeek {
-  month: string;
-  year: number;
-  days: HeatmapDay[];
-}
-
-export interface HeatmapData {
-  weeks: HeatmapWeek[];
-}
+const TOTAL_WEEKS = 53;
+const DAYS_PER_WEEK = 7;
 
 function getHeatLevel(thermos: number): number {
   if (thermos <= 0) return 0;
@@ -30,52 +22,74 @@ export function calculateHeatmap(
 ): HeatmapData {
 
   const historyMap = new Map(
-    history.map((day) => [day.date, day])
+    history.map(day => [day.date, day])
   );
 
   const today = new Date();
 
   today.setHours(0, 0, 0, 0);
 
-  // Último domingo
+  // Domingo de esta semana
   const end = new Date(today);
 
   end.setDate(end.getDate() - end.getDay());
 
-  // Primer domingo (53 semanas)
+  // Hace 52 semanas
   const start = new Date(end);
 
-  start.setDate(start.getDate() - 52 * 7);
+  start.setDate(
+    start.getDate() - (TOTAL_WEEKS - 1) * DAYS_PER_WEEK
+  );
 
   const weeks: HeatmapWeek[] = [];
 
-  for (let week = 0; week < 53; week++) {
+  for (let week = 0; week < TOTAL_WEEKS; week++) {
 
-    const weekStart = new Date(start);
+    const firstDay = new Date(start);
 
-    weekStart.setDate(start.getDate() + week * 7);
+    firstDay.setDate(
+      start.getDate() + week * DAYS_PER_WEEK
+    );
+
+    let month: string | undefined;
 
     const days: HeatmapDay[] = [];
 
-    for (let day = 0; day < 7; day++) {
+    for (let i = 0; i < DAYS_PER_WEEK; i++) {
 
-      const current = new Date(weekStart);
+      const current = new Date(firstDay);
 
-      current.setDate(weekStart.getDate() + day);
+      current.setDate(firstDay.getDate() + i);
 
-      const key = current.toISOString().split("T")[0];
+      // Mostrar el mes únicamente
+      // cuando aparece el día 1
+      if (current.getDate() === 1) {
+
+        month = current.toLocaleString(
+          "es-AR",
+          {
+            month: "short",
+          }
+        );
+
+      }
+
+      const key =
+        current.toISOString().split("T")[0];
 
       const entry = historyMap.get(key);
+
+      const thermos = entry?.thermos ?? 0;
 
       days.push({
 
         date: key,
 
-        thermos: entry?.thermos ?? 0,
+        thermos,
 
-        value: entry
-          ? getHeatLevel(entry.thermos)
-          : 0
+        active: !!entry,
+
+        value: getHeatLevel(thermos),
 
       });
 
@@ -83,11 +97,7 @@ export function calculateHeatmap(
 
     weeks.push({
 
-      month: weekStart.toLocaleString("es-AR", {
-        month: "short",
-      }),
-
-      year: weekStart.getFullYear(),
+      month,
 
       days,
 
@@ -96,7 +106,9 @@ export function calculateHeatmap(
   }
 
   return {
+
     weeks,
+
   };
 
 }
