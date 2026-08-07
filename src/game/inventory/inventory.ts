@@ -1,5 +1,5 @@
-import type { Inventory } from "../types/inventory";
-import type { StickerPlacement } from "../types/stickerPlacement";
+import type { Inventory } from "../../types/inventory";
+import type { StickerPlacement } from "../../types/stickerPlacement";
 
 /* ============================
    Helpers privados

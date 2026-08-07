@@ -34,7 +34,7 @@ export const defaultUser: User = {
 
     unlockedThermos: ["starter"],
 
-    unlockedMates: ["wood"],
+    unlockedMates: ["wood", "calabaza"],
 
     unlockedStickers: [],
 

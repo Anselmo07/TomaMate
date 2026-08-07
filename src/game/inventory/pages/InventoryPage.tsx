@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import { mates } from "../../../game/data/mates";
+import { thermos } from "../../../game/data/thermos";
+import { stickers } from "../../../game/data/stickers";
 
 import InventoryTabs from "../components/InventoryTabs";
 import InventoryGrid from "../components/InventoryGrid";
@@ -9,7 +11,11 @@ import { useUser } from "../../../context/useUser";
 
 export default function InventoryPage() {
 
-  const { user } = useUser();
+  const {
+    user,
+    equipMate,
+    equipThermo,
+  } = useUser();
 
   const [tab, setTab] = useState<
     "mates" | "thermos" | "stickers"
@@ -20,18 +26,15 @@ export default function InventoryPage() {
     <main>
 
       <h1>
-
         Inventario
-
       </h1>
 
       <InventoryTabs
-
         value={tab}
-
         onChange={setTab}
-
       />
+
+      {/* MATES */}
 
       {tab === "mates" && (
 
@@ -39,15 +42,55 @@ export default function InventoryPage() {
 
           items={mates}
 
-          equippedId={user.inventory.equippedMate}
+          equippedId={
+            user.inventory.equippedMate
+          }
 
-          unlocked={user.inventory.unlockedMates}
+          unlocked={
+            user.inventory.unlockedMates
+          }
 
-          onEquip={(id) => {
+          onEquip={equipMate}
 
-            console.log(id);
+        />
 
-          }}
+      )}
+
+      {/* TERMOS */}
+
+      {tab === "thermos" && (
+
+        <InventoryGrid
+
+          items={thermos}
+
+          equippedId={
+            user.inventory.equippedThermo
+          }
+
+          unlocked={
+            user.inventory.unlockedThermos
+          }
+
+          onEquip={equipThermo}
+
+        />
+
+      )}
+
+      {/* STICKERS */}
+
+      {tab === "stickers" && (
+
+        <InventoryGrid
+
+          items={stickers}
+
+          unlocked={
+            user.inventory.unlockedStickers
+          }
+
+          onEquip={() => {}}
 
         />
 
@@ -56,5 +99,4 @@ export default function InventoryPage() {
     </main>
 
   );
-
 }

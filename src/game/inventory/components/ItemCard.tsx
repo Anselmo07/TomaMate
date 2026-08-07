@@ -1,7 +1,6 @@
 import type { GameItem } from "../../../types/item";
 
 interface Props {
-
   item: GameItem;
 
   owned: boolean;
@@ -9,79 +8,70 @@ interface Props {
   equipped: boolean;
 
   onEquip(): void;
-
 }
 
 export default function ItemCard({
-
   item,
-
   owned,
-
   equipped,
-
   onEquip,
-
 }: Props) {
 
   return (
-
     <article className="item-card">
 
       <div className="item-card__image">
-
         {item.image}
-
       </div>
 
       <h3>
-
         {item.name}
-
       </h3>
 
       <p>
-
         {item.description}
-
       </p>
 
       <span className={`rarity ${item.rarity}`}>
-
         {item.rarity}
-
       </span>
 
       {!owned ? (
 
-        <button disabled>
+        <div className="item-card__locked">
 
-          {item.unlockLevel
-            ? `Nivel ${item.unlockLevel}`
-            : `${item.shopPrice} 🌿`}
+          <span>
+            🔒 Bloqueado
+          </span>
 
-        </button>
+          {item.unlockLevel && (
+            <small>
+              Nivel {item.unlockLevel}
+            </small>
+          )}
+
+        </div>
 
       ) : equipped ? (
 
-        <button disabled>
-
+        <button
+          type="button"
+          disabled
+        >
           Equipado
-
         </button>
 
       ) : (
 
-        <button onClick={onEquip}>
-
+        <button
+          type="button"
+          onClick={onEquip}
+        >
           Equipar
-
         </button>
 
       )}
 
     </article>
-
   );
-
 }
