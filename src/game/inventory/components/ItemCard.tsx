@@ -7,7 +7,13 @@ interface Props {
 
   equipped: boolean;
 
-  onEquip(): void;
+  onEquip?: () => void;
+
+  onUnlock?: () => void;
+
+  onUse?: () => void;
+
+  isSticker?: boolean;
 }
 
 export default function ItemCard({
@@ -15,13 +21,19 @@ export default function ItemCard({
   owned,
   equipped,
   onEquip,
+  onUnlock,
+  onUse,
+  isSticker = false,
 }: Props) {
 
   return (
     <article className="item-card">
 
       <div className="item-card__image">
-        {item.image}
+        <img
+          src={item.image}
+          alt={item.name}
+        />
       </div>
 
       <h3>
@@ -50,7 +62,25 @@ export default function ItemCard({
             </small>
           )}
 
+          {isSticker && onUnlock && (
+            <button
+              type="button"
+              onClick={onUnlock}
+            >
+              Desbloquear
+            </button>
+          )}
+
         </div>
+
+      ) : isSticker ? (
+
+        <button
+          type="button"
+          onClick={onUse}
+        >
+          Usar
+        </button>
 
       ) : equipped ? (
 

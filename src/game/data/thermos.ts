@@ -1,5 +1,6 @@
 import type { Thermo } from "../../types/thermo";
 import { Rarity } from "../../types/rarity";
+import thermoss from "../../assets/images/stanley.png";
 
 export const thermos: Thermo[] = [
   {
@@ -14,7 +15,7 @@ export const thermos: Thermo[] = [
     id: "lumilagro",
     name: "Lumilagro",
     description: "Un clásico argentino.",
-    image: "/thermos/lumilagro.png",
+    image: thermoss ,
     rarity: Rarity.Common,
   },
 

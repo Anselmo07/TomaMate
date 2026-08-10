@@ -6,6 +6,7 @@ import { stickers } from "../../../game/data/stickers";
 
 import InventoryTabs from "../components/InventoryTabs";
 import InventoryGrid from "../components/InventoryGrid";
+import ThermoCustomizer from "../components/ThermoCustomizer/ThermoCustomizer";
 
 import { useUser } from "../../../context/useUser";
 
@@ -15,11 +16,31 @@ export default function InventoryPage() {
     user,
     equipMate,
     equipThermo,
+    unlockSticker,
   } = useUser();
 
   const [tab, setTab] = useState<
     "mates" | "thermos" | "stickers"
   >("mates");
+
+  const [selectedStickerId, setSelectedStickerId] =
+    useState<string | null>(null);
+
+  const selectedSticker =
+    stickers.find(
+      sticker =>
+        sticker.id === selectedStickerId
+    );
+
+  function handleUseSticker(
+    stickerId: string
+  ) {
+
+    setSelectedStickerId(
+      stickerId
+    );
+
+  }
 
   return (
 
@@ -39,7 +60,6 @@ export default function InventoryPage() {
       {tab === "mates" && (
 
         <InventoryGrid
-
           items={mates}
 
           equippedId={
@@ -50,8 +70,9 @@ export default function InventoryPage() {
             user.inventory.unlockedMates
           }
 
-          onEquip={equipMate}
-
+          onEquip={
+            equipMate
+          }
         />
 
       )}
@@ -61,7 +82,6 @@ export default function InventoryPage() {
       {tab === "thermos" && (
 
         <InventoryGrid
-
           items={thermos}
 
           equippedId={
@@ -72,8 +92,9 @@ export default function InventoryPage() {
             user.inventory.unlockedThermos
           }
 
-          onEquip={equipThermo}
-
+          onEquip={
+            equipThermo
+          }
         />
 
       )}
@@ -82,17 +103,37 @@ export default function InventoryPage() {
 
       {tab === "stickers" && (
 
-        <InventoryGrid
+        <>
 
-          items={stickers}
+          <InventoryGrid
+            items={stickers}
 
-          unlocked={
-            user.inventory.unlockedStickers
-          }
+            unlocked={
+              user.inventory.unlockedStickers
+            }
 
-          onEquip={() => {}}
+            onUnlock={
+              unlockSticker
+            }
 
-        />
+            onUse={
+              handleUseSticker
+            }
+
+            isSticker
+          />
+
+          {selectedSticker && (
+
+            <ThermoCustomizer
+              sticker={
+                selectedSticker
+              }
+            />
+
+          )}
+
+        </>
 
       )}
 

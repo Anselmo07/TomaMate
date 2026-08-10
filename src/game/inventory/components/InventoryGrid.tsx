@@ -9,7 +9,13 @@ interface Props {
 
   unlocked: string[];
 
-  onEquip(id: string): void;
+  onEquip?: (id: string) => void;
+
+  onUnlock?: (id: string) => void;
+
+  onUse?: (id: string) => void;
+
+  isSticker?: boolean;
 }
 
 export default function InventoryGrid({
@@ -17,6 +23,9 @@ export default function InventoryGrid({
   equippedId,
   unlocked,
   onEquip,
+  onUnlock,
+  onUse,
+  isSticker = false,
 }: Props) {
 
   return (
@@ -29,11 +38,33 @@ export default function InventoryGrid({
 
           item={item}
 
-          equipped={equippedId === item.id}
+          equipped={
+            equippedId === item.id
+          }
 
-          owned={unlocked.includes(item.id)}
+          owned={
+            unlocked.includes(item.id)
+          }
 
-          onEquip={() => onEquip(item.id)}
+          onEquip={
+            onEquip
+              ? () => onEquip(item.id)
+              : undefined
+          }
+
+          onUnlock={
+            onUnlock
+              ? () => onUnlock(item.id)
+              : undefined
+          }
+
+          onUse={
+            onUse
+              ? () => onUse(item.id)
+              : undefined
+          }
+
+          isSticker={isSticker}
         />
 
       ))}
@@ -41,5 +72,3 @@ export default function InventoryGrid({
     </section>
   );
 }
-
-//prueba
