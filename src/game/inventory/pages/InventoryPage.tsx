@@ -10,10 +10,15 @@ import ThermoCustomizer from "../components/ThermoCustomizer/ThermoCustomizer";
 
 import { useUser } from "../../../context/useUser";
 
+import {
+  placeSticker,
+} from "../../../game/inventory/inventory";
+
 export default function InventoryPage() {
 
   const {
     user,
+    setUser,
     equipMate,
     equipThermo,
     unlockSticker,
@@ -36,10 +41,32 @@ export default function InventoryPage() {
     stickerId: string
   ) {
 
+    const newPlacement = {
+      id: crypto.randomUUID(),
+
+      stickerId,
+
+      x: 0,
+
+      y: 0,
+
+      rotation: 0,
+
+      scale: 1,
+    };
+
+    setUser(previous => ({
+      ...previous,
+
+      inventory: placeSticker(
+        previous.inventory,
+        newPlacement
+      ),
+    }));
+
     setSelectedStickerId(
       stickerId
     );
-
   }
 
   return (

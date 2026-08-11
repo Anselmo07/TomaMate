@@ -1,5 +1,7 @@
 import "./ThermoCustomizer.css";
 
+import { useRef, useState } from "react";
+
 import type { Sticker } from "../../../../types/sticker";
 
 interface Props {
@@ -9,6 +11,68 @@ interface Props {
 export default function ThermoCustomizer({
   sticker,
 }: Props) {
+
+  const thermoRef = useRef<HTMLDivElement>(null);
+
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const [dragging, setDragging] = useState(false);
+
+  function handlePointerDown(
+    event: React.PointerEvent<HTMLDivElement>
+  ) {
+
+    if (!thermoRef.current) {
+      return;
+    }
+
+    event.currentTarget.setPointerCapture(
+      event.pointerId
+    );
+
+    setDragging(true);
+  }
+
+  function handlePointerMove(
+    event: React.PointerEvent<HTMLDivElement>
+  ) {
+
+    if (!dragging || !thermoRef.current) {
+      return;
+    }
+
+    const rect =
+      thermoRef.current.getBoundingClientRect();
+
+    const x =
+      event.clientX -
+      rect.left -
+      rect.width / 2;
+
+    const y =
+      event.clientY -
+      rect.top -
+      rect.height / 2;
+
+    setPosition({
+      x,
+      y,
+    });
+  }
+
+  function handlePointerUp(
+    event: React.PointerEvent<HTMLDivElement>
+  ) {
+
+    event.currentTarget.releasePointerCapture(
+      event.pointerId
+    );
+
+    setDragging(false);
+  }
 
   return (
     <section className="thermo-customizer">
@@ -37,7 +101,10 @@ export default function ThermoCustomizer({
             ●
           </div>
 
-          <div className="thermo__body">
+          <div
+            ref={thermoRef}
+            className="thermo__body"
+          >
 
             <span className="thermo__logo">
               🧉
@@ -45,9 +112,36 @@ export default function ThermoCustomizer({
 
             {sticker && (
 
-              <div className="thermo__sticker">
+              <div
+                className={`thermo__sticker ${
+                  dragging
+                    ? "is-dragging"
+                    : ""
+                }`}
+                style={{
+                  transform: `
+                    translate(
+                      ${position.x}px,
+                      ${position.y}px
+                    )
+                  `,
+                }}
+                onPointerDown={
+                  handlePointerDown
+                }
+                onPointerMove={
+                  handlePointerMove
+                }
+                onPointerUp={
+                  handlePointerUp
+                }
+              >
 
-                {sticker.image}
+                <img
+                  src={sticker.image}
+                  alt={sticker.name}
+                  draggable={false}
+                />
 
               </div>
 
