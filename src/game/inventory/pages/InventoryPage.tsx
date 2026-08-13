@@ -12,6 +12,7 @@ import { useUser } from "../../../context/useUser";
 
 import {
   placeSticker,
+  moveSticker,
 } from "../../../game/inventory/inventory";
 
 export default function InventoryPage() {
@@ -32,10 +33,16 @@ export default function InventoryPage() {
     useState<string | null>(null);
 
   const selectedSticker =
-    stickers.find(
-      sticker =>
-        sticker.id === selectedStickerId
-    );
+  stickers.find(
+    sticker =>
+      sticker.id === selectedStickerId
+  );
+
+const selectedPlacement =
+  user.inventory.thermoStickers.find(
+    placement =>
+      placement.stickerId === selectedStickerId
+  );
 
   function handleUseSticker(
     stickerId: string
@@ -68,6 +75,25 @@ export default function InventoryPage() {
       stickerId
     );
   }
+
+  function handleMoveSticker(
+  placementId: string,
+  x: number,
+  y: number
+) {
+
+  setUser(previous => ({
+    ...previous,
+
+    inventory: moveSticker(
+      previous.inventory,
+      placementId,
+      x,
+      y
+    ),
+  }));
+
+}
 
   return (
 
@@ -153,9 +179,9 @@ export default function InventoryPage() {
           {selectedSticker && (
 
             <ThermoCustomizer
-              sticker={
-                selectedSticker
-              }
+              sticker={selectedSticker}
+              placement={selectedPlacement}
+              onMove={handleMoveSticker}
             />
 
           )}

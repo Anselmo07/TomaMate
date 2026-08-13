@@ -4,12 +4,24 @@ import { useRef, useState } from "react";
 
 import type { Sticker } from "../../../../types/sticker";
 
+import type { StickerPlacement } from "../../../../types/stickerPlacement";
+
 interface Props {
   sticker?: Sticker;
+
+  placement?: StickerPlacement;
+
+  onMove?: (
+    placementId: string,
+    x: number,
+    y: number
+  ) => void;
 }
 
 export default function ThermoCustomizer({
   sticker,
+  placement,
+  onMove,
 }: Props) {
 
   const thermoRef = useRef<HTMLDivElement>(null);
@@ -37,31 +49,39 @@ export default function ThermoCustomizer({
   }
 
   function handlePointerMove(
-    event: React.PointerEvent<HTMLDivElement>
-  ) {
+  event: React.PointerEvent<HTMLDivElement>
+) {
 
-    if (!dragging || !thermoRef.current) {
-      return;
-    }
-
-    const rect =
-      thermoRef.current.getBoundingClientRect();
-
-    const x =
-      event.clientX -
-      rect.left -
-      rect.width / 2;
-
-    const y =
-      event.clientY -
-      rect.top -
-      rect.height / 2;
-
-    setPosition({
-      x,
-      y,
-    });
+  if (!dragging || !thermoRef.current) {
+    return;
   }
+
+  const rect =
+    thermoRef.current.getBoundingClientRect();
+
+  const x =
+    event.clientX -
+    rect.left -
+    rect.width / 2;
+
+  const y =
+    event.clientY -
+    rect.top -
+    rect.height / 2;
+
+  setPosition({
+    x,
+    y,
+  });
+
+  if (placement && onMove) {
+    onMove(
+      placement.id,
+      x,
+      y
+    );
+  }
+}
 
   function handlePointerUp(
     event: React.PointerEvent<HTMLDivElement>
