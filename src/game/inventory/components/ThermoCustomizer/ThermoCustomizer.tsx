@@ -3,7 +3,6 @@ import "./ThermoCustomizer.css";
 import { useRef, useState } from "react";
 
 import type { Sticker } from "../../../../types/sticker";
-
 import type { StickerPlacement } from "../../../../types/stickerPlacement";
 
 interface Props {
@@ -16,28 +15,40 @@ interface Props {
     x: number,
     y: number
   ) => void;
+
+  onRotate?: (
+    placementId: string,
+    rotation: number
+  ) => void;
+
+  onScale?: (
+    placementId: string,
+    scale: number
+  ) => void;
 }
 
 export default function ThermoCustomizer({
   sticker,
   placement,
   onMove,
+  onRotate,
+  onScale,
 }: Props) {
 
-  const thermoRef = useRef<HTMLDivElement>(null);
+  const thermoRef =
+    useRef<HTMLDivElement>(null);
 
-  const [position, setPosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [dragging, setDragging] =
+    useState(false);
 
-  const [dragging, setDragging] = useState(false);
-
+  /*
+   * Comenzar a arrastrar
+   */
   function handlePointerDown(
     event: React.PointerEvent<HTMLDivElement>
   ) {
 
-    if (!thermoRef.current) {
+    if (!placement) {
       return;
     }
 
@@ -48,41 +59,44 @@ export default function ThermoCustomizer({
     setDragging(true);
   }
 
+  /*
+   * Mover sticker
+   */
   function handlePointerMove(
-  event: React.PointerEvent<HTMLDivElement>
-) {
+    event: React.PointerEvent<HTMLDivElement>
+  ) {
 
-  if (!dragging || !thermoRef.current) {
-    return;
-  }
+    if (
+      !dragging ||
+      !placement ||
+      !thermoRef.current
+    ) {
+      return;
+    }
 
-  const rect =
-    thermoRef.current.getBoundingClientRect();
+    const rect =
+      thermoRef.current.getBoundingClientRect();
 
-  const x =
-    event.clientX -
-    rect.left -
-    rect.width / 2;
+    const x =
+      event.clientX -
+      rect.left -
+      rect.width / 2;
 
-  const y =
-    event.clientY -
-    rect.top -
-    rect.height / 2;
+    const y =
+      event.clientY -
+      rect.top -
+      rect.height / 2;
 
-  setPosition({
-    x,
-    y,
-  });
-
-  if (placement && onMove) {
-    onMove(
+    onMove?.(
       placement.id,
       x,
       y
     );
   }
-}
 
+  /*
+   * Terminar de arrastrar
+   */
   function handlePointerUp(
     event: React.PointerEvent<HTMLDivElement>
   ) {
@@ -94,8 +108,41 @@ export default function ThermoCustomizer({
     setDragging(false);
   }
 
+  function handleRotationChange(
+  event: React.ChangeEvent<HTMLInputElement>
+) {
+
+  if (!placement) {
+    return;
+  }
+
+  onRotate?.(
+    placement.id,
+    Number(event.target.value)
+  );
+
+}
+
+function handleScaleChange(
+  event: React.ChangeEvent<HTMLInputElement>
+) {
+
+  if (!placement) {
+    return;
+  }
+
+  onScale?.(
+    placement.id,
+    Number(event.target.value)
+  );
+
+}
+
   return (
+
     <section className="thermo-customizer">
+
+      {/* HEADER */}
 
       <div className="thermo-customizer__header">
 
@@ -113,13 +160,19 @@ export default function ThermoCustomizer({
 
       </div>
 
+      {/* PREVIEW */}
+
       <div className="thermo-customizer__preview">
 
         <div className="thermo">
 
+          {/* TAPA */}
+
           <div className="thermo__cap">
             ●
           </div>
+
+          {/* CUERPO */}
 
           <div
             ref={thermoRef}
@@ -130,20 +183,23 @@ export default function ThermoCustomizer({
               🧉
             </span>
 
-            {sticker && (
+            {/* STICKER */}
+
+            {sticker && placement && (
 
               <div
-                className={`thermo__sticker ${
-                  dragging
-                    ? "is-dragging"
-                    : ""
-                }`}
+                className={`
+                  thermo__sticker
+                  ${dragging ? "is-dragging" : ""}
+                `}
                 style={{
                   transform: `
                     translate(
-                      ${position.x}px,
-                      ${position.y}px
+                      ${placement.x}px,
+                      ${placement.y}px
                     )
+                    scale(${placement.scale})
+                    rotate(${placement.rotation}deg)
                   `,
                 }}
                 onPointerDown={
@@ -156,6 +212,48 @@ export default function ThermoCustomizer({
                   handlePointerUp
                 }
               >
+
+                <div className="thermo-customizer__controls">
+
+  <label>
+    <span>
+      Tamaño
+    </span>
+
+    <input
+      type="range"
+      min="0.5"
+      max="2"
+      step="0.05"
+      value={placement.scale}
+      onChange={handleScaleChange}
+    />
+
+    <strong>
+      {Math.round(placement.scale * 100)}%
+    </strong>
+  </label>
+
+  <label>
+    <span>
+      Rotación
+    </span>
+
+    <input
+      type="range"
+      min="-180"
+      max="180"
+      step="1"
+      value={placement.rotation}
+      onChange={handleRotationChange}
+    />
+
+    <strong>
+      {placement.rotation}°
+    </strong>
+  </label>
+
+</div>
 
                 <img
                   src={sticker.image}
@@ -173,7 +271,9 @@ export default function ThermoCustomizer({
 
       </div>
 
-      {sticker && (
+      {/* STICKER SELECCIONADO */}
+
+      {sticker && placement && (
 
         <div className="thermo-customizer__selected">
 
@@ -190,5 +290,6 @@ export default function ThermoCustomizer({
       )}
 
     </section>
+
   );
 }

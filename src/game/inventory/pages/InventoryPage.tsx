@@ -13,6 +13,8 @@ import { useUser } from "../../../context/useUser";
 import {
   placeSticker,
   moveSticker,
+  rotateSticker,
+  scaleSticker,
 } from "../../../game/inventory/inventory";
 
 export default function InventoryPage() {
@@ -32,18 +34,30 @@ export default function InventoryPage() {
   const [selectedStickerId, setSelectedStickerId] =
     useState<string | null>(null);
 
+  const [selectedPlacementId, setSelectedPlacementId] =
+    useState<string | null>(null);
+
+  /*
+   * Sticker seleccionado
+   */
   const selectedSticker =
-  stickers.find(
-    sticker =>
-      sticker.id === selectedStickerId
-  );
+    stickers.find(
+      sticker =>
+        sticker.id === selectedStickerId
+    );
 
-const selectedPlacement =
-  user.inventory.thermoStickers.find(
-    placement =>
-      placement.stickerId === selectedStickerId
-  );
+  /*
+   * Placement correspondiente
+   */
+  const selectedPlacement =
+    user.inventory.thermoStickers.find(
+      placement =>
+        placement.id === selectedPlacementId
+    );
 
+  /*
+   * Usar sticker
+   */
   function handleUseSticker(
     stickerId: string
   ) {
@@ -63,37 +77,96 @@ const selectedPlacement =
     };
 
     setUser(previous => ({
+
       ...previous,
 
       inventory: placeSticker(
         previous.inventory,
         newPlacement
       ),
+
     }));
 
     setSelectedStickerId(
       stickerId
     );
+
+    setSelectedPlacementId(
+      newPlacement.id
+    );
+
   }
 
+  /*
+   * Mover sticker
+   */
+    /*
+   * Mover sticker
+   */
   function handleMoveSticker(
-  placementId: string,
-  x: number,
-  y: number
-) {
+    placementId: string,
+    x: number,
+    y: number
+  ) {
 
-  setUser(previous => ({
-    ...previous,
+    setUser(previous => ({
 
-    inventory: moveSticker(
-      previous.inventory,
-      placementId,
-      x,
-      y
-    ),
-  }));
+      ...previous,
 
-}
+      inventory: moveSticker(
+        previous.inventory,
+        placementId,
+        x,
+        y
+      ),
+
+    }));
+
+  }
+
+  /*
+   * Rotar sticker
+   */
+  function handleRotateSticker(
+    placementId: string,
+    rotation: number
+  ) {
+
+    setUser(previous => ({
+
+      ...previous,
+
+      inventory: rotateSticker(
+        previous.inventory,
+        placementId,
+        rotation
+      ),
+
+    }));
+
+  }
+
+  /*
+   * Cambiar tamaño del sticker
+   */
+  function handleScaleSticker(
+    placementId: string,
+    scale: number
+  ) {
+
+    setUser(previous => ({
+
+      ...previous,
+
+      inventory: scaleSticker(
+        previous.inventory,
+        placementId,
+        scale
+      ),
+
+    }));
+
+  }
 
   return (
 
@@ -108,7 +181,9 @@ const selectedPlacement =
         onChange={setTab}
       />
 
-      {/* MATES */}
+      {/* =========================
+          MATES
+      ========================= */}
 
       {tab === "mates" && (
 
@@ -130,7 +205,9 @@ const selectedPlacement =
 
       )}
 
-      {/* TERMOS */}
+      {/* =========================
+          TERMOS
+      ========================= */}
 
       {tab === "thermos" && (
 
@@ -152,7 +229,9 @@ const selectedPlacement =
 
       )}
 
-      {/* STICKERS */}
+      {/* =========================
+          STICKERS
+      ========================= */}
 
       {tab === "stickers" && (
 
@@ -176,12 +255,14 @@ const selectedPlacement =
             isSticker
           />
 
-          {selectedSticker && (
+          {selectedSticker && selectedPlacement && (
 
             <ThermoCustomizer
               sticker={selectedSticker}
               placement={selectedPlacement}
               onMove={handleMoveSticker}
+              onRotate={handleRotateSticker}
+              onScale={handleScaleSticker}
             />
 
           )}

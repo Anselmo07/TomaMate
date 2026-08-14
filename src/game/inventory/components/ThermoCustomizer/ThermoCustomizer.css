@@ -132,6 +132,49 @@
   cursor: grabbing;
 }
 
+.thermo-customizer__controls {
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.thermo-customizer__controls label {
+  display: grid;
+
+  grid-template-columns:
+    90px
+    1fr
+    55px;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.thermo-customizer__controls input[type="range"] {
+  width: 100%;
+}
+
+.thermo-customizer__controls strong {
+  text-align: right;
+
+  font-size: .85rem;
+}
+
+@media (max-width: 700px) {
+
+  .thermo-customizer__controls label {
+    grid-template-columns:
+      75px
+      1fr
+      50px;
+  }
+
+}
+
 .thermo__sticker img {
   width: 100%;
   height: 100%;
