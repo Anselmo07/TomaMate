@@ -275,3 +275,5 @@ export default function InventoryPage() {
 
   );
 }
+
+// Prueba
