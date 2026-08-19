@@ -1,4 +1,7 @@
-import { useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import { mates } from "../../../game/data/mates";
 import { thermos } from "../../../game/data/thermos";
@@ -15,6 +18,7 @@ import {
   moveSticker,
   rotateSticker,
   scaleSticker,
+  removeSticker,
 } from "../../../game/inventory/inventory";
 
 export default function InventoryPage() {
@@ -36,6 +40,45 @@ export default function InventoryPage() {
 
   const [selectedPlacementId, setSelectedPlacementId] =
     useState<string | null>(null);
+
+  /*
+   * Recuperar el último sticker
+   * cuando entramos a Stickers.
+   */
+  useEffect(() => {
+
+    if (tab !== "stickers") {
+      return;
+    }
+
+    if (selectedPlacementId) {
+      return;
+    }
+
+    const placements =
+      user.inventory.thermoStickers;
+
+    const lastPlacement =
+      placements[placements.length - 1];
+
+    if (!lastPlacement) {
+      return;
+    }
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSelectedPlacementId(
+      lastPlacement.id
+    );
+
+    setSelectedStickerId(
+      lastPlacement.stickerId
+    );
+
+  }, [
+    tab,
+    user.inventory.thermoStickers,
+    selectedPlacementId,
+  ]);
 
   /*
    * Sticker seleccionado
@@ -94,13 +137,9 @@ export default function InventoryPage() {
     setSelectedPlacementId(
       newPlacement.id
     );
-
   }
 
   /*
-   * Mover sticker
-   */
-    /*
    * Mover sticker
    */
   function handleMoveSticker(
@@ -121,7 +160,6 @@ export default function InventoryPage() {
       ),
 
     }));
-
   }
 
   /*
@@ -143,11 +181,10 @@ export default function InventoryPage() {
       ),
 
     }));
-
   }
 
   /*
-   * Cambiar tamaño del sticker
+   * Cambiar tamaño
    */
   function handleScaleSticker(
     placementId: string,
@@ -165,8 +202,30 @@ export default function InventoryPage() {
       ),
 
     }));
-
   }
+
+  /*
+ * Eliminar sticker
+ */
+function handleRemoveSticker(
+  placementId: string
+) {
+
+  setUser(previous => ({
+
+    ...previous,
+
+    inventory: removeSticker(
+      previous.inventory,
+      placementId
+    ),
+
+  }));
+
+  setSelectedStickerId(null);
+
+  setSelectedPlacementId(null);
+}
 
   return (
 
@@ -181,9 +240,7 @@ export default function InventoryPage() {
         onChange={setTab}
       />
 
-      {/* =========================
-          MATES
-      ========================= */}
+      {/* MATES */}
 
       {tab === "mates" && (
 
@@ -205,9 +262,7 @@ export default function InventoryPage() {
 
       )}
 
-      {/* =========================
-          TERMOS
-      ========================= */}
+      {/* TERMOS */}
 
       {tab === "thermos" && (
 
@@ -229,9 +284,7 @@ export default function InventoryPage() {
 
       )}
 
-      {/* =========================
-          STICKERS
-      ========================= */}
+      {/* STICKERS */}
 
       {tab === "stickers" && (
 
@@ -255,14 +308,31 @@ export default function InventoryPage() {
             isSticker
           />
 
-          {selectedSticker && selectedPlacement && (
+          {selectedSticker &&
+            selectedPlacement && (
 
             <ThermoCustomizer
               sticker={selectedSticker}
-              placement={selectedPlacement}
-              onMove={handleMoveSticker}
-              onRotate={handleRotateSticker}
-              onScale={handleScaleSticker}
+
+              placement={
+                selectedPlacement
+              }
+
+              onMove={
+                handleMoveSticker
+              }
+
+              onRotate={
+                handleRotateSticker
+              }
+
+              onScale={
+                handleScaleSticker
+              }
+
+              onRemove={
+                handleRemoveSticker
+              }
             />
 
           )}
@@ -272,6 +342,5 @@ export default function InventoryPage() {
       )}
 
     </main>
-
   );
 }

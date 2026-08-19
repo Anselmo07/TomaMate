@@ -25,6 +25,10 @@ interface Props {
     placementId: string,
     scale: number
   ) => void;
+
+  onRemove?: (
+  placementId: string
+) => void;
 }
 
 export default function ThermoCustomizer({
@@ -33,6 +37,7 @@ export default function ThermoCustomizer({
   onMove,
   onRotate,
   onScale,
+  onRemove,
 }: Props) {
 
   const thermoRef =
@@ -41,9 +46,6 @@ export default function ThermoCustomizer({
   const [dragging, setDragging] =
     useState(false);
 
-  /*
-   * Comenzar a arrastrar
-   */
   function handlePointerDown(
     event: React.PointerEvent<HTMLDivElement>
   ) {
@@ -59,9 +61,6 @@ export default function ThermoCustomizer({
     setDragging(true);
   }
 
-  /*
-   * Mover sticker
-   */
   function handlePointerMove(
     event: React.PointerEvent<HTMLDivElement>
   ) {
@@ -94,9 +93,6 @@ export default function ThermoCustomizer({
     );
   }
 
-  /*
-   * Terminar de arrastrar
-   */
   function handlePointerUp(
     event: React.PointerEvent<HTMLDivElement>
   ) {
@@ -109,40 +105,39 @@ export default function ThermoCustomizer({
   }
 
   function handleRotationChange(
-  event: React.ChangeEvent<HTMLInputElement>
-) {
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
 
-  if (!placement) {
-    return;
+    if (!placement) {
+      return;
+    }
+
+    onRotate?.(
+      placement.id,
+      Number(event.target.value)
+    );
   }
 
-  onRotate?.(
-    placement.id,
-    Number(event.target.value)
-  );
+  function handleScaleChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
 
-}
+    if (!placement) {
+      return;
+    }
 
-function handleScaleChange(
-  event: React.ChangeEvent<HTMLInputElement>
-) {
-
-  if (!placement) {
-    return;
+    onScale?.(
+      placement.id,
+      Number(event.target.value)
+    );
   }
 
-  onScale?.(
-    placement.id,
-    Number(event.target.value)
-  );
-
-}
+  if (!sticker || !placement) {
+    return null;
+  }
 
   return (
-
     <section className="thermo-customizer">
-
-      {/* HEADER */}
 
       <div className="thermo-customizer__header">
 
@@ -155,24 +150,18 @@ function handleScaleChange(
         </h2>
 
         <p>
-          Personalizalo con tus stickers.
+          Mové, rotá y cambiá el tamaño del sticker.
         </p>
 
       </div>
-
-      {/* PREVIEW */}
 
       <div className="thermo-customizer__preview">
 
         <div className="thermo">
 
-          {/* TAPA */}
-
           <div className="thermo__cap">
             ●
           </div>
-
-          {/* CUERPO */}
 
           <div
             ref={thermoRef}
@@ -183,87 +172,39 @@ function handleScaleChange(
               🧉
             </span>
 
-            {/* STICKER */}
+            <div
+              className={`
+                thermo__sticker
+                ${dragging ? "is-dragging" : ""}
+              `}
+              style={{
+                transform: `
+                  translate(
+                    ${placement.x}px,
+                    ${placement.y}px
+                  )
+                  rotate(${placement.rotation}deg)
+                  scale(${placement.scale})
+                `,
+              }}
+              onPointerDown={
+                handlePointerDown
+              }
+              onPointerMove={
+                handlePointerMove
+              }
+              onPointerUp={
+                handlePointerUp
+              }
+            >
 
-            {sticker && placement && (
+              <img
+                src={sticker.image}
+                alt={sticker.name}
+                draggable={false}
+              />
 
-              <div
-                className={`
-                  thermo__sticker
-                  ${dragging ? "is-dragging" : ""}
-                `}
-                style={{
-                  transform: `
-                    translate(
-                      ${placement.x}px,
-                      ${placement.y}px
-                    )
-                    scale(${placement.scale})
-                    rotate(${placement.rotation}deg)
-                  `,
-                }}
-                onPointerDown={
-                  handlePointerDown
-                }
-                onPointerMove={
-                  handlePointerMove
-                }
-                onPointerUp={
-                  handlePointerUp
-                }
-              >
-
-                <div className="thermo-customizer__controls">
-
-  <label>
-    <span>
-      Tamaño
-    </span>
-
-    <input
-      type="range"
-      min="0.5"
-      max="2"
-      step="0.05"
-      value={placement.scale}
-      onChange={handleScaleChange}
-    />
-
-    <strong>
-      {Math.round(placement.scale * 100)}%
-    </strong>
-  </label>
-
-  <label>
-    <span>
-      Rotación
-    </span>
-
-    <input
-      type="range"
-      min="-180"
-      max="180"
-      step="1"
-      value={placement.rotation}
-      onChange={handleRotationChange}
-    />
-
-    <strong>
-      {placement.rotation}°
-    </strong>
-  </label>
-
-</div>
-
-                <img
-                  src={sticker.image}
-                  alt={sticker.name}
-                  draggable={false}
-                />
-
-              </div>
-
-            )}
+            </div>
 
           </div>
 
@@ -271,25 +212,84 @@ function handleScaleChange(
 
       </div>
 
-      {/* STICKER SELECCIONADO */}
+      <div className="thermo-customizer__controls">
 
-      {sticker && placement && (
-
-        <div className="thermo-customizer__selected">
+        <label>
 
           <span>
-            Sticker seleccionado
+            Tamaño
           </span>
 
+          <input
+            type="range"
+            min="0.5"
+            max="2"
+            step="0.05"
+            value={placement.scale}
+            onChange={
+              handleScaleChange
+            }
+          />
+
           <strong>
-            {sticker.name}
+            {Math.round(
+              placement.scale * 100
+            )}%
           </strong>
 
-        </div>
+        </label>
 
-      )}
+        <label>
+
+          <span>
+            Rotación
+          </span>
+
+          <input
+            type="range"
+            min="-180"
+            max="180"
+            step="1"
+            value={placement.rotation}
+            onChange={
+              handleRotationChange
+            }
+          />
+
+          <strong>
+            {placement.rotation}°
+          </strong>
+
+        </label>
+
+            <button
+              type="button"
+              className="thermo-customizer__remove"
+              onClick={() => {
+                if (!placement) {
+                  return;
+                }
+
+                onRemove?.(placement.id);
+              }}
+            >
+              🗑️ Eliminar sticker
+            </button>
+
+      </div>
+
+      <div className="thermo-customizer__selected">
+
+        <span>
+          Sticker seleccionado
+        </span>
+
+        <strong>
+          {sticker.name}
+        </strong>
+
+      </div>
 
     </section>
-
   );
 }
