@@ -16,7 +16,7 @@ export const argentinaStickers: Sticker[] = [
     id: "mate",
     name: "Mate",
     description: "Porque el mate siempre está presente.",
-    image: "/stickers/placeholder.svg",
+    image: "/stickers/arg.wbep",
     rarity: Rarity.Common,
     category: "Argentina",
     collection: "Argentina",
